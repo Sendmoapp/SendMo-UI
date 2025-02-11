@@ -16,7 +16,7 @@ const DashboardPage = () => {
   const [selectedCurrencyTo, setSelectedCurrencyTo] = useState("usdc");
 
   return (
-    <div className="max-w-[1440px] mx-auto p-6 space-y-6 ">
+    <div className="w-full mx-auto p-6 space-y-6 ">
       {/* Balance Cards */}
       <div className="bg-bg-dashboard-element bg-cover border border-white rounded-[24px] p-6 shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)]">
         <div className="grid grid-cols-2 gap-4 mb-6">

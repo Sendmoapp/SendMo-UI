@@ -5,11 +5,13 @@ import AuthGuard from "../components/hoc/AuthGuard";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="min-h-screen flex-col justify-between bg-[#F9FAFB]">
+    <>
       <Header />
-      <AuthGuard>{children}</AuthGuard>
+      <main className="min-h-screen lg:px-[50px]  xl:px-[208px] flex-col justify-between items-center bg-[#F9FAFB]">
+        <AuthGuard>{children}</AuthGuard>
+      </main>
       <Footer />
-    </main>
+    </>
   );
 };
 

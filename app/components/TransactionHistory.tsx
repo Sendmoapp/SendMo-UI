@@ -4,12 +4,12 @@ import React from "react";
 
 const TransactionHistory = () => {
   return (
-    <div className="p-6">
+    <div className="py-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-semibold text-[#111827]">
           Recent Transactions
         </h3>
-        <Link href="/" className="text-blue-500">
+        <Link href="/transactions" className="text-blue-500">
           See all
         </Link>
       </div>

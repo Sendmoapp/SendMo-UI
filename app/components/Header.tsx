@@ -1,6 +1,7 @@
 "use client";
 import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -43,7 +44,10 @@ const Header = () => {
               />
             </div>
 
-            <div className="flex items-center gap-2 bg-[#E5E7EB] py-1 px-2 rounded-[18px] ">
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 bg-[#E5E7EB] py-1 px-2 rounded-[18px] "
+            >
               <div className="h-6 w-6 overflow-hidden rounded-full">
                 <img
                   src="/assets/user_avata.png"
@@ -53,7 +57,7 @@ const Header = () => {
               </div>
 
               <span className="text-sm font-medium text-[#111827]">layi</span>
-            </div>
+            </Link>
           </div>
         ) : (
           <div className="flex gap-4">

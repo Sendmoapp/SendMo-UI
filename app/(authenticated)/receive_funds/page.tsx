@@ -5,6 +5,7 @@ import Link from "next/link";
 import QRCode from "react-qr-code";
 import TransactionHistory from "@/app/components/TransactionHistory";
 import { usePrivy } from "@privy-io/react-auth";
+import BackButton from "@/app/components/BackButton";
 
 const ReceiveFundsPage = () => {
   const { user, ready, authenticated } = usePrivy();
@@ -14,17 +15,9 @@ const ReceiveFundsPage = () => {
     if (authenticated && ready) setwalletAddress(user?.wallet?.address ?? "");
   }, [ready, authenticated]);
   return (
-    <div className="max-w-[1440px] mx-auto">
+    <div className="w-full mx-auto">
       {/* Back Button */}
-      <div className="p-6">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 text-[#111827] font-normal text-base bg-white py-2 px-[6px] w-[131px] rounded-[8px] border border-[#E5E7EB] "
-        >
-          <Image src="/icons/arrow_left.svg" alt="Back" width={8} height={13} />
-          Back Home
-        </Link>
-      </div>
+      <BackButton />
 
       {/* Main Content */}
       <div className="bg-white rounded-[24px] p-6 border border-[#E5E7EB] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)">
