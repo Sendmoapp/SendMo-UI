@@ -44,9 +44,9 @@ const Page = () => {
       </section>
 
       {/* Placeholder for the dashboard preview image */}
-      <div className=" mx-auto px-10 pb-20">
+      <div className=" mx-auto px-10 pb-20 ">
         <div className="w-full h-[1159px] relative">
-          <Image fill alt="" src="/assets/hero_image.png" />
+          <Image fill alt="" src="/assets/hero.jpeg" />
         </div>
       </div>
 

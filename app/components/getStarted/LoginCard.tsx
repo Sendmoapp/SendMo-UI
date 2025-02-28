@@ -38,7 +38,13 @@ const LoginCard = () => {
 
   return (
     <div className="w-full max-w-[600px] rounded-[40px] bg-white p-10 shadow-lg backdrop-blur-xl flex flex-col items-center z-10 mb-[100px]">
-      <Image src="/assets/IMG.svg" alt="Wallet" height={80} width={80} />
+      <Image
+        src="/assets/logo2.jpeg"
+        alt="Wallet"
+        height={60}
+        width={80}
+        className="rounded-sm"
+      />
       <p className="text-[40px] font-extrabold text-center mb-2">
         Welcome to{" "}
         <span className="bg-gradient-to-r from-[#0172E6] to-[#A855F7] text-transparent bg-clip-text">

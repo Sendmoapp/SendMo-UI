@@ -24,9 +24,7 @@ const useAccount = () => {
   const embeddedWallet = wallets.find(
     (wallet) => wallet.walletClientType === "privy"
   );
-  if (!embeddedWallet) {
-    throw new Error("No embedded wallet found");
-  }
+
   const switchNetwork = async (chain: any) => {
     try {
       setIsLoading(true);

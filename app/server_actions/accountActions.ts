@@ -132,7 +132,7 @@ export const getUserBalance = async (
       success: true,
       usdtBalance,
       usdcBalance,
-      mptBalance,
+      mptBalance: parseFloat(mptBalance).toFixed(2),
       ethBalance,
       ethInUsd: parseFloat(ethBalance) * ethPrice,
       totalBalanceUSD: totalBalance.toFixed(2),

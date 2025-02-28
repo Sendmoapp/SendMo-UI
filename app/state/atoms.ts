@@ -23,3 +23,5 @@ export const transactionsAtom = atom<
     blockNumber: string;
   }[]
 >([]);
+
+export const userProfileAtom = atom<User | null>(null);

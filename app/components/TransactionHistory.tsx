@@ -34,6 +34,7 @@ const TransactionHistory = () => {
     }
   };
   useEffect(() => {
+    if (!currentChain || !embeddedWallet) return;
     getHistories();
   }, [currentChain, embeddedWallet]);
   if (historyLoading)

@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import BackButton from "@/app/components/BackButton";
+import { useAtom } from "jotai";
+import { userProfileAtom } from "@/app/state/atoms";
 
 const formSchema = z
   .object({
@@ -29,6 +31,7 @@ const formSchema = z
 type FormData = z.infer<typeof formSchema>;
 
 const EditProfilePage = () => {
+  const [userProfile] = useAtom(userProfileAtom);
   const {
     register,
     handleSubmit,
@@ -37,10 +40,10 @@ const EditProfilePage = () => {
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      fullName: "John Doe",
-      username: "JohnDoe53",
-      password: "Password123!",
-      confirmPassword: "Password123!",
+      fullName: userProfile?.fullName,
+      username: userProfile?.username,
+      password: "",
+      confirmPassword: "",
     },
   });
 

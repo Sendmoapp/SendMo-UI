@@ -1,12 +1,15 @@
 "use client";
 import BackButton from "@/app/components/BackButton";
+import { userProfileAtom } from "@/app/state/atoms";
 import { usePrivy } from "@privy-io/react-auth";
+import { useAtom } from "jotai";
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const ProfilePage = () => {
   const { user, ready, authenticated } = usePrivy();
+  const [userProfile] = useAtom(userProfileAtom);
 
   return (
     <div className="max-w-[600px] mx-auto">
@@ -49,15 +52,15 @@ const ProfilePage = () => {
             </div>
             <div className="flex-1">
               <h2 className="text-[#111827] text-base font-medium">
-                {"John Doe"}
+                {userProfile?.fullName || ""}
               </h2>
               <p className="text-[#6B7280] text-sm font-normal">
-                {user?.email?.address || "johndoe@account.com"}
+                {userProfile?.email || ""}
               </p>
             </div>
             <div className="flex items-center gap-2 bg-white rounded-[8px] px-3 py-2 border border-[#E5E7EB]">
               <span className="text-[#111827] text-base font-normal">
-                JohnDoe53
+                {userProfile?.username || ""}
               </span>
               <button className="text-[#E5E7EB]">
                 <Copy size={18} />
