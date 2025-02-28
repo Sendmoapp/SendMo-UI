@@ -1,3 +1,4 @@
+import { Configs } from "@/configs";
 import FACTORY_ABI from "@/constants/abis/factory.json" assert { type: "json" };
 import POOL_ABI from "@/constants/abis/pool.json" assert { type: "json" };
 import QUOTER_ABI from "@/constants/abis/quoter.json" assert { type: "json" };
@@ -13,9 +14,7 @@ const SWAP_ROUTER_CONTRACT_ADDRESS =
   "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E";
 
 // Provider, Contract & Signer Instances
-const provider = new ethers.providers.JsonRpcProvider(
-  process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL!
-);
+const provider = new ethers.providers.JsonRpcProvider(Configs.sepolia_rpc_url);
 const factoryContract = new ethers.Contract(
   POOL_FACTORY_CONTRACT_ADDRESS,
   FACTORY_ABI,

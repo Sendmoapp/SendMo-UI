@@ -28,7 +28,6 @@ export const createUser = async (user: User) => {
       .insert(userSchema)
       .values(userObject)
       .returning();
-    console.log({ res });
 
     return {
       success: true,

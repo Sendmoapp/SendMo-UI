@@ -2,9 +2,9 @@
 import Moralis from "moralis";
 import { cache } from "react";
 
-const moralis = process.env.NEXT_PUBLIC_MORALIS_API_KEY;
+const moralis = process.env.MORALIS_API_KEY;
 
-if (!moralis) throw new Error("MOONPAY_KEYs IS/ARE NOT AVAILABLE");
+if (!moralis) throw new Error("MORALIS API KEY  IS/ARE NOT AVAILABLE");
 
 Moralis.start({
   apiKey: moralis,
