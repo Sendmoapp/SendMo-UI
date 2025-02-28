@@ -62,6 +62,7 @@ yarn install
    NEXT_PUBLIC_MOONPAY_PUBLISHABLE_KEY=your_moonpay_publishable_key
    SEPOLIA_RPC_URL=your_sepolia_rpc_url
    DATABASE_URL=your_postgresql_database_url
+   MORALIS_API_KEY=your_moralis_api_key
 
 4. **Run the development server:**
 
