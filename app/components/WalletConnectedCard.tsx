@@ -14,7 +14,7 @@ const WalletConnectedCard = () => {
     <div className="w-full max-w-[600px] rounded-[40px] bg-white p-10 shadow-lg backdrop-blur-xl flex flex-col items-center z-10 mb-[100px]">
       <p className="text-[40px] font-bold text-center mb-2">Wallet Connected</p>
       <p className="text-[18px] font-normal text-[#4B5563] mb-10">
-        proceed to dashboard
+        proceed to account setup
       </p>
       <div className="flex items-center gap-4 bg-[#E5E7EB] py-3 px-4 rounded-[18px] mb-10">
         <div className="h-10 w-10 overflow-hidden rounded-full">

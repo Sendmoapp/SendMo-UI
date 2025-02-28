@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ["cdn.moralis.io"],
+  },
 };
 
 export default nextConfig;

@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import QRCode from "react-qr-code";
+import BackButton from "@/app/components/BackButton";
 import TransactionHistory from "@/app/components/TransactionHistory";
 import { usePrivy } from "@privy-io/react-auth";
-import BackButton from "@/app/components/BackButton";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
 
 const ReceiveFundsPage = () => {
   const { user, ready, authenticated } = usePrivy();
@@ -73,26 +72,6 @@ const ReceiveFundsPage = () => {
           <Image src="/icons/share.svg" alt="Share" width={20} height={20} />
           Share Address
         </button>
-
-        {/* Fee Information */}
-        <div className="space-y-4  bg-[#F9FAFB] border border-[#E5E7EB] rounded-[12px] p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-[#6B7280] font-normal text-base">
-              Network Fee
-            </span>
-            <span className="text-[#111827] text-base font-semibold">
-              $0.00
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-[#6B7280] font-normal text-base">
-              Total Amount
-            </span>
-            <span className="text-[#111827] text-base font-semibold">
-              $0.00
-            </span>
-          </div>
-        </div>
       </div>
       <TransactionHistory />
     </div>

@@ -1,7 +1,7 @@
-import GetStarted from "../components/getStarted/GetStarted";
+import LoginSignup from "../components/getStarted/LoginSignup";
 
 const page = () => {
-  return <GetStarted />;
+  return <LoginSignup />;
 };
 
 export default page;

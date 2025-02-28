@@ -1,15 +1,11 @@
 "use client";
-import { usePrivy } from "@privy-io/react-auth";
+import React from "react";
 import WalletConnectedCard from "../WalletConnectedCard";
-import LoginCard from "./LoginCard";
+import { usePrivy } from "@privy-io/react-auth";
 
 const GetStarted = () => {
   const { authenticated, ready } = usePrivy();
-  // useEffect(() => {}, [ready, authenticated]);
-
   if (ready && authenticated) return <WalletConnectedCard />;
-  return <LoginCard />;
-  return;
 };
 
 export default GetStarted;

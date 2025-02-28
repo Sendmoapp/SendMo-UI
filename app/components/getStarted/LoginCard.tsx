@@ -1,17 +1,41 @@
 "use client";
-import { useLogin } from "@privy-io/react-auth";
+
+import { useToast } from "@/hooks/use-toast";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const LoginCard = () => {
+  const { toast } = useToast();
+  const { authenticated, ready } = usePrivy();
+  const router = useRouter();
+
   const { login } = useLogin({
-    onComplete: (e) => {
-      console.log({ user: e.user });
+    onComplete: (userProp) => {
+      if (userProp.isNewUser) {
+        router.push("/auth/get-started");
+      } else {
+        router.push("/dashboard");
+      }
     },
     onError: (e) => {
       console.log(e);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: e.toString(),
+      });
     },
   });
+
+  useEffect(() => {
+    if (ready && authenticated) {
+      router.push("/dashboard");
+    }
+  }, [ready, authenticated]);
+
   return (
     <div className="w-full max-w-[600px] rounded-[40px] bg-white p-10 shadow-lg backdrop-blur-xl flex flex-col items-center z-10 mb-[100px]">
       <Image src="/assets/IMG.svg" alt="Wallet" height={80} width={80} />
@@ -29,7 +53,7 @@ const LoginCard = () => {
         Choose how you want to get started
       </p>
       <button
-        onClick={login}
+        onClick={() => login({})}
         className="w-full flex items-center justify-center py-2 text-white bg-[#0172E6] border rounded-[8px] hover:text-grey-200 gap-2 text-sm font-medium mb-4"
       >
         <Image
@@ -38,12 +62,19 @@ const LoginCard = () => {
           width={14}
           height={12}
         />
-        Continue With Wallet Connect
+        Click to get started
       </button>
-      <button className="w-full flex items-center justify-center py-2 text-white bg-black border rounded-[8px] hover:text-grey-300 gap-2 text-sm font-medium mb-10">
+      {/* <button
+        onClick={() =>
+          login({
+            disableSignup: true,
+          })
+        }
+        className="w-full flex items-center justify-center py-2 text-white bg-black border rounded-[8px] hover:text-grey-300 gap-2 text-sm font-medium mb-10"
+      >
         <Image src="/icons/email.svg" alt="wallet" width={14} height={12} />
-        Continue with Email
-      </button>
+        Click here to login
+      </button> */}
       <p className="text-xs font-normal text-[#6B7280]">
         By continuing, you agree to our{" "}
         <Link href="/" className="text-[#0172E6]">

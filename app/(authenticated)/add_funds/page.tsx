@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import TransactionHistory from "@/app/components/TransactionHistory";
 import BackButton from "@/app/components/BackButton";
+import TransactionHistory from "@/app/components/TransactionHistory";
+import Image from "next/image";
+import { useState } from "react";
 
 const AddFundsPage = () => {
   const [amount, setAmount] = useState("0.00");

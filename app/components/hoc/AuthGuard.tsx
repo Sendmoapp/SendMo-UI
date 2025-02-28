@@ -1,17 +1,35 @@
 "use client";
 
 import { usePrivy } from "@privy-io/react-auth";
-// import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
+import { redirect, usePathname } from "next/navigation";
 import { useEffect } from "react";
+
+const MoonPayProvider = dynamic(
+  () => import("@moonpay/moonpay-react").then((mod) => mod.MoonPayProvider),
+  { ssr: false }
+);
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const { ready, authenticated } = usePrivy();
 
+  const pathName = usePathname();
   useEffect(() => {
-    // if (!authenticated && !ready) redirect("/");
-  }, [ready, authenticated]);
+    if (!ready) return;
 
-  return <div>{children}</div>;
+    if (ready && !authenticated) redirect("/auth");
+  }, [pathName, ready]);
+
+  return (
+    <div>
+      <MoonPayProvider
+        debug={true}
+        apiKey={process.env.NEXT_PUBLIC_MOONPAY_PUBLISHABLE_KEY!}
+      >
+        {children}
+      </MoonPayProvider>
+    </div>
+  );
 };
 
 export default AuthGuard;

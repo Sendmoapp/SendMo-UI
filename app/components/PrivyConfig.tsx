@@ -1,6 +1,7 @@
 "use client";
 import { PrivyProvider } from "@privy-io/react-auth";
-import React from "react";
+
+import { mainnet, sepolia } from "viem/chains";
 
 if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID)
   throw new Error("PRIVY APP ID IS NOT AVAILABLE");
@@ -15,14 +16,25 @@ const PrivyConfig = ({
     <PrivyProvider
       appId={appId}
       config={{
-        loginMethods: ["google", "wallet", "email"],
+        loginMethods: ["email", "wallet"],
         appearance: {
           theme: "light",
           accentColor: "#676FFF",
           logo: "/assets/logo.png",
         },
 
+        fundingMethodConfig: {
+          moonpay: {
+            paymentMethod: "credit_debit_card",
+            useSandbox: true,
+          },
+        },
+
+        defaultChain: sepolia,
+        supportedChains: [sepolia, mainnet],
         embeddedWallets: {
+          showWalletUIs: true,
+          priceDisplay: { primary: "fiat-currency", secondary: "native-token" },
           createOnLogin: "users-without-wallets",
         },
       }}

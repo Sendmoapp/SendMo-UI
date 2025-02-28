@@ -18,7 +18,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn, formatAddress, formatDate } from "@/lib/utils";
+import { transactionsAtom } from "@/app/state/atoms";
+import { useAtom } from "jotai";
+import Link from "next/link";
 
 type Transaction = {
   id: string;
@@ -33,60 +36,26 @@ const TransactionsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [date, setDate] = useState<Date>();
+  const [histories, sethistories] = useAtom(transactionsAtom);
 
-  const transactions: Transaction[] = [
-    {
-      id: "1",
-      type: "sent",
-      title: "Sent to Mike",
-      date: "March 15, 2024",
-      amount: "-150.00",
-      currency: "USDC",
-    },
-    {
-      id: "2",
-      type: "received",
-      title: "Received from Emma",
-      date: "March 14, 2024",
-      amount: "+75.00",
-      currency: "USDC",
-    },
-    {
-      id: "3",
-      type: "added",
-      title: "Added funds via Credit Card",
-      date: "March 13, 2024",
-      amount: "+200.00",
-      currency: "USDC",
-    },
-    {
-      id: "4",
-      type: "converted",
-      title: "Convert from USD to USDT",
-      date: "March 14, 2024",
-      amount: "+75.00",
-      currency: "USDT",
-    },
-  ];
-
-  const getTransactionIcon = (type: Transaction["type"]) => {
+  const getTransactionIcon = (type: string) => {
     switch (type) {
-      case "sent":
+      case "SENT":
         return {
           src: "/icons/DIV.svg",
           bg: "bg-[#FEE2E2]",
         };
-      case "received":
+      case "RECEIVED":
         return {
           src: "/icons/DIV (1).svg",
           bg: "bg-[#DCFCE7]",
         };
-      case "added":
+      case "FUNDING":
         return {
           src: "/icons/DIV (2).svg",
           bg: "bg-[#DBEAFE]",
         };
-      case "converted":
+      default:
         return {
           src: "/icons/DIV (3).svg",
           bg: "bg-[#FEF9C3]",
@@ -172,11 +141,14 @@ const TransactionsPage = () => {
 
         {/* Transactions List */}
         <div className="space-y-4">
-          {transactions.map((transaction) => {
+          {histories.map((transaction) => {
             const icon = getTransactionIcon(transaction.type);
+            const recieved = transaction.type === "RECEIVED";
+            const isCardFunding = transaction.type === "FUNDING";
             return (
-              <div
-                key={transaction.id}
+              <Link
+                href={`/transactions/${transaction.hash}`}
+                key={transaction.timestamp}
                 className="flex items-center justify-between p-4 bg-[#F9FAFB] rounded-[12px] border border-[#E5E7EB] hover:bg-[#F9FAFB] cursor-pointer transition-colors"
               >
                 <div className="flex items-center gap-4">
@@ -191,24 +163,37 @@ const TransactionsPage = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="text-[#111827] text-base font-medium">
-                      {transaction.title}
-                    </h3>
+                    {!isCardFunding && (
+                      <h3 className="text-[#111827] text-base font-medium">
+                        {!recieved
+                          ? "Sent to " + formatAddress(transaction.to)
+                          : "Received from " + formatAddress(transaction.from)}
+                      </h3>
+                    )}
+
+                    {isCardFunding && (
+                      <h3 className="text-[#111827] text-base font-medium">
+                        Added funds via credit card
+                      </h3>
+                    )}
+
                     <p className="text-[#6B7280] font-normal text-sm">
-                      {transaction.date}
+                      {formatDate(transaction.timestamp)}
                     </p>
                   </div>
                 </div>
                 <span
                   className={`font-normal text-base ${
-                    transaction.amount.startsWith("-")
-                      ? "text-[#EF4444]"
-                      : "text-[#10B981]"
+                    recieved || isCardFunding
+                      ? "text-[#10B981]"
+                      : "text-[#EF4444]"
                   }`}
                 >
-                  {transaction.amount} {transaction.currency}
+                  {`${recieved || isCardFunding ? "+" : "-"} ${parseFloat(
+                    transaction.value
+                  ).toString()} ${transaction.tokenSymbol}`}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>
