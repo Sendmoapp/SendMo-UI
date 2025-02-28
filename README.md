@@ -81,4 +81,4 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Deploy on Vercel
 
-Check out our [deployed version at](https://sendmoui-test.vercel.app/)
+Check out our [deployed version on vercel:https://sendmoui-test.vercel.app/](https://sendmoui-test.vercel.app/)
