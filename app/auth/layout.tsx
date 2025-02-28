@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import Image from "next/image";
 import React from "react";
 
@@ -9,6 +10,7 @@ const layout = ({
   return (
     <main className="bg-bg-element-onboarding min-h-screen bg-cover bg-repeat mx-auto flex items-center flex-col justify-between pt-[100px]">
       {children}
+      <Toaster />
       <div className="w-full bg-white flex items-center justify-between py-6 px-10">
         <Image
           src="/assets/logo.png"

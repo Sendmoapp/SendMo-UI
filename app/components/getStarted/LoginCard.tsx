@@ -14,6 +14,7 @@ const LoginCard = () => {
 
   const { login } = useLogin({
     onComplete: (userProp) => {
+      console.log({ isNEw: userProp.isNewUser });
       if (userProp.isNewUser) {
         router.push("/auth/get-started");
       } else {
@@ -30,11 +31,11 @@ const LoginCard = () => {
     },
   });
 
-  useEffect(() => {
-    if (ready && authenticated) {
-      router.push("/dashboard");
-    }
-  }, [ready, authenticated]);
+  // useEffect(() => {
+  //   if (ready && authenticated) {
+  //     router.push("/dashboard");
+  //   }
+  // }, [ready, authenticated]);
 
   return (
     <div className="w-full max-w-[600px] rounded-[40px] bg-white p-10 shadow-lg backdrop-blur-xl flex flex-col items-center z-10 mb-[100px]">
@@ -59,7 +60,9 @@ const LoginCard = () => {
         Choose how you want to get started
       </p>
       <button
-        onClick={() => login({})}
+        onClick={() =>
+          ready && authenticated ? router.push("/dashboard") : login()
+        }
         className="w-full flex items-center justify-center py-2 text-white bg-[#0172E6] border rounded-[8px] hover:text-grey-200 gap-2 text-sm font-medium mb-4"
       >
         <Image
