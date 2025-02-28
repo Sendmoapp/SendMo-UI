@@ -1,4 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SendMo
+
+SendMo is a stable coin payment system that integrates with Privy for authentication, Moralis for blockchain interactions, and Uniswap for token swaps. The project is built using Next.js and TypeScript.
+
+## Table of Contents
+
+- Features
+- Technologies Used
+- Project Structure
+- Setup Instructions
+- Usage
+- Contributing
+- License
+
+## Features
+
+- User authentication with Privy
+- Token balance fetching using Moralis
+- Token swapping using Uniswap
+- Responsive UI components
+
+## Technologies Used
+
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Privy](https://privy.io/)
+- [Moralis](https://moralis.io/)
+- [Uniswap](https://uniswap.org/)
+- [Ethers.js](https://docs.ethers.io/v5/)
+- [New](https://docs.ethers.io/v5/)
+- [Ethers.js](https://docs.ethers.io/v5/)
+
+## Project Structure
 
 ## Getting Started
 

@@ -22,9 +22,12 @@ const returnTransactionType = (
   userWalletAddress: string
 ) => {
   const moonPayFundingAddres = "0xc216ed2d6c295579718dbd4a797845cda70b3c36";
-  if (from === moonPayFundingAddres) return "FUNDING";
-  if (from === userWalletAddress) return "SENT";
-  if (to === userWalletAddress) return "RECEIVED";
+  if (from.toLocaleLowerCase() === moonPayFundingAddres.toLocaleLowerCase())
+    return "FUNDING";
+  if (from.toLocaleLowerCase() === userWalletAddress.toLocaleLowerCase())
+    return "SENT";
+  if (to.toLocaleLowerCase() === userWalletAddress.toLocaleLowerCase())
+    return "RECEIVED";
 };
 export async function getUserTransactions(walletAddress: string) {
   try {
@@ -43,15 +46,16 @@ export async function getUserTransactions(walletAddress: string) {
 
     const tokenHistory = tokenBal.toJSON();
     const nativeHistory = nativeBal.toJSON();
+
     const nativeReceived = nativeHistory.result.filter(
       (t) =>
-        t.to_address === walletAddress.toLocaleLowerCase() &&
-        Number(t.value) > 0
+        t.to_address.toLocaleLowerCase() ===
+          walletAddress.toLocaleLowerCase() && Number(t.value) > 0
     );
     const nativeSent = nativeHistory.result.filter(
       (t) =>
-        t.from_address === walletAddress.toLocaleLowerCase() &&
-        Number(t.value) > 0
+        t.from_address.toLocaleLowerCase() ===
+          walletAddress.toLocaleLowerCase() && Number(t.value) > 0
     );
 
     const tokenReceived = tokenHistory.result.filter(
@@ -69,12 +73,9 @@ export async function getUserTransactions(walletAddress: string) {
         value: ethers.utils.formatEther(trx.value),
         token: "",
         timestamp: trx.block_timestamp,
-
         tokenName: "Ethereum",
         blockNumber: trx.block_number,
-
         tokenSymbol: "ETH",
-
         tokenDecimal: "18",
         type: returnTransactionType(
           trx.from_address,

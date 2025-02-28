@@ -37,6 +37,7 @@ const TransactionHistory = () => {
     if (!currentChain || !embeddedWallet) return;
     getHistories();
   }, [currentChain, embeddedWallet]);
+  console.log({ histories });
   if (historyLoading)
     return (
       <div className="py-6">
