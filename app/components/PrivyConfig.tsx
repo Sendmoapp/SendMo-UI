@@ -20,7 +20,7 @@ const PrivyConfig = ({
         appearance: {
           theme: "light",
           accentColor: "#676FFF",
-          logo: "/assets/logo.png",
+          logo: "/assets/logo.jpeg",
         },
 
         fundingMethodConfig: {

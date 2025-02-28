@@ -1,4 +1,5 @@
 "use server";
+import { ethers } from "ethers";
 import Moralis from "moralis";
 import { cache } from "react";
 
@@ -27,46 +28,87 @@ const returnTransactionType = (
 };
 export async function getUserTransactions(walletAddress: string) {
   try {
-    const response = await Moralis.EvmApi.token.getWalletTokenTransfers({
-      chain: "0xaa36a7",
-      order: "DESC",
-      address: walletAddress,
-    });
-    const jsonRes = response.toJSON();
+    const [tokenBal, nativeBal] = await Promise.all([
+      Moralis.EvmApi.token.getWalletTokenTransfers({
+        chain: "0xaa36a7",
+        order: "DESC",
+        address: walletAddress,
+      }),
+      await Moralis.EvmApi.transaction.getWalletTransactions({
+        chain: "0xaa36a7",
+        order: "DESC",
+        address: walletAddress,
+      }),
+    ]);
 
-    if (jsonRes.result.length === 0) return [];
+    const tokenHistory = tokenBal.toJSON();
+    const nativeHistory = nativeBal.toJSON();
+    const nativeReceived = nativeHistory.result.filter(
+      (t) =>
+        t.to_address === walletAddress.toLocaleLowerCase() &&
+        Number(t.value) > 0
+    );
+    const nativeSent = nativeHistory.result.filter(
+      (t) =>
+        t.from_address === walletAddress.toLocaleLowerCase() &&
+        Number(t.value) > 0
+    );
 
-    const recieved = jsonRes.result.filter(
+    const tokenReceived = tokenHistory.result.filter(
       (t) => t.to_address === walletAddress.toLocaleLowerCase()
     );
-    const sent = jsonRes.result.filter(
+    const tokenSent = tokenHistory.result.filter(
       (t) => t.from_address === walletAddress.toLocaleLowerCase()
     );
 
-    const formattedTrx = recieved
-      .concat(sent)
-      .map((trx) => {
-        return {
-          hash: trx.transaction_hash,
-          from: trx.from_address,
-          to: trx.to_address,
-          value: trx.value_decimal,
-          token: trx.address,
-          timestamp: trx.block_timestamp,
+    const formattedNativeTrx = nativeReceived.concat(nativeSent).map((trx) => {
+      return {
+        hash: trx.hash,
+        from: trx.from_address,
+        to: trx.to_address,
+        value: ethers.utils.formatEther(trx.value),
+        token: "",
+        timestamp: trx.block_timestamp,
 
-          tokenName: trx.token_name,
-          blockNumber: trx.block_number,
+        tokenName: "Ethereum",
+        blockNumber: trx.block_number,
 
-          tokenSymbol: trx.token_symbol,
+        tokenSymbol: "ETH",
 
-          tokenDecimal: trx.token_decimals,
-          type: returnTransactionType(
-            trx.from_address,
-            trx.to_address,
-            walletAddress
-          ),
-        };
-      })
+        tokenDecimal: "18",
+        type: returnTransactionType(
+          trx.from_address,
+          trx.to_address,
+          walletAddress
+        ),
+      };
+    });
+
+    const formattedTokenTrx = tokenReceived.concat(tokenSent).map((trx) => {
+      return {
+        hash: trx.transaction_hash,
+        from: trx.from_address,
+        to: trx.to_address,
+        value: trx.value_decimal as string,
+        token: trx.address,
+        timestamp: trx.block_timestamp,
+
+        tokenName: trx.token_name,
+        blockNumber: trx.block_number,
+
+        tokenSymbol: trx.token_symbol,
+
+        tokenDecimal: trx.token_decimals,
+        type: returnTransactionType(
+          trx.from_address,
+          trx.to_address,
+          walletAddress
+        ),
+      };
+    });
+
+    const formattedTrx = formattedNativeTrx
+      .concat(formattedTokenTrx)
       .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp));
 
     return formattedTrx;
@@ -97,7 +139,7 @@ export const getUserBalance = async (
       chain: chainId,
       address: walletAddress,
     });
-    const jsonRes = JSON.parse(JSON.stringify(response.result));
+    const tokenHistory = JSON.parse(JSON.stringify(response.result));
 
     const { usdtPrice, usdcPrice, ethPrice } = await getTokenPrice([
       "tether",
@@ -106,13 +148,17 @@ export const getUserBalance = async (
     ]);
 
     const usdtBalance =
-      jsonRes.find((t: any) => t.symbol === "USDT")?.balance_formatted ?? "0";
+      tokenHistory.find((t: any) => t.symbol === "USDT")?.balance_formatted ??
+      "0";
     const usdcBalance =
-      jsonRes.find((t: any) => t.symbol === "USDC")?.balance_formatted ?? "0";
+      tokenHistory.find((t: any) => t.symbol === "USDC")?.balance_formatted ??
+      "0";
     const ethBalance =
-      jsonRes.find((t: any) => t.symbol === "ETH")?.balance_formatted ?? "0";
+      tokenHistory.find((t: any) => t.symbol === "ETH")?.balance_formatted ??
+      "0";
     const mptBalance =
-      jsonRes.find((t: any) => t.symbol === "MPT")?.balance_formatted ?? "0";
+      tokenHistory.find((t: any) => t.symbol === "MPT")?.balance_formatted ??
+      "0";
     console.log({
       usdtPrice,
       usdcPrice,

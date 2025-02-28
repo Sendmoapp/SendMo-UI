@@ -95,7 +95,7 @@ export default function TransactionReceipt() {
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-gray-600">Amount</span>
                   <span className="font-medium">
-                    {parseFloat(trx?.value).toString()} ${trx?.tokenSymbol}
+                    {parseFloat(trx?.value).toString()} {trx?.tokenSymbol}
                   </span>
                 </div>
 
@@ -104,7 +104,9 @@ export default function TransactionReceipt() {
                   <div className="flex items-center bg-gray-100 rounded-full py-1 px-2">
                     <div className="w-5 h-5 rounded-full bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 mr-2"></div>
                     <span className="text-sm mr-1">
-                      {formatAddress(trx?.from ?? "")}
+                      {embeddedWallet?.address.toLocaleLowerCase() === trx?.from
+                        ? "You"
+                        : formatAddress(trx?.from ?? "")}
                     </span>
                     <button
                       onClick={handleCopyFrom}
@@ -130,10 +132,10 @@ export default function TransactionReceipt() {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center mb-4">
+                {/* <div className="flex justify-between items-center mb-4">
                   <span className="text-gray-600">Network Fee</span>
-                  <span>0.001 USDC</span>
-                </div>
+                  <span>0.98$</span>
+                </div> */}
 
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-gray-600">Date</span>

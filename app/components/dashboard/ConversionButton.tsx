@@ -45,9 +45,11 @@ const ConversionButton = () => {
 
   const returnBalance = () => {
     if (selectedCurrency.toLocaleLowerCase() === "usdt") {
-      return (userBalaces?.usdtBalance ?? 0).toFixed(2) + "USDT";
+      return (userBalaces?.usdtBalance ?? 0).toFixed(2) + " USDT";
     } else if (selectedCurrency.toLocaleLowerCase() === "usdc") {
-      return (userBalaces?.usdcBalance ?? 0).toFixed(2) + "USDC";
+      return (userBalaces?.usdcBalance ?? 0).toFixed(2) + " USDC";
+    } else {
+      return (userBalaces?.ethBalance ?? 0).toFixed(2) + " ETH";
     }
   };
 
@@ -178,7 +180,7 @@ const ConversionButton = () => {
               From
             </p>
             <p className="text-base font-normal text-[#9CA3AF] mb-[10px]">
-              Balance: ${returnBalance()}
+              Balance: {returnBalance()}
             </p>
           </div>
           <div className="flex items-center justify-between border rounded-xl p-4">

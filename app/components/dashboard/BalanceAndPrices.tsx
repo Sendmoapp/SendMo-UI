@@ -33,22 +33,29 @@ const BalanceAndPrices = () => {
         embeddedWallet?.address!,
         "0xaa36a7"
       );
-
-      setuserbal({
-        usd: response.usdtBalance,
-        usdc: response.usdcBalance,
-        totalCryptoBal: response.totalBalanceUSD,
-        eth: response.ethBalance,
-        ethUsd: response.ethInUsd,
-        mpt: response.mptBalance,
-      });
-      setUserBalances({
-        ethBalance: parseFloat(response.ethBalance ?? "0"),
-        totalCryptoBalance: parseFloat(response.totalBalanceUSD ?? "0"),
-        usdcBalance: parseFloat(response.usdcBalance ?? "0"),
-        usdtBalance: parseFloat(response.usdtBalance ?? "0"),
-        mptBalance: parseFloat(response.mptBalance ?? "0"),
-      });
+      if (response.success) {
+        setuserbal({
+          usd: response.usdtBalance,
+          usdc: response.usdcBalance,
+          totalCryptoBal: response.totalBalanceUSD,
+          eth: response.ethBalance,
+          ethUsd: response.ethInUsd,
+          mpt: response.mptBalance,
+        });
+        setUserBalances({
+          ethBalance: parseFloat(response.ethBalance ?? "0"),
+          totalCryptoBalance: parseFloat(response.totalBalanceUSD ?? "0"),
+          usdcBalance: parseFloat(response.usdcBalance ?? "0"),
+          usdtBalance: parseFloat(response.usdtBalance ?? "0"),
+          mptBalance: parseFloat(response.mptBalance ?? "0"),
+        });
+      } else {
+        toast({
+          title: "Error fetching data",
+          variant: "destructive",
+          description: "Please try again",
+        });
+      }
     } catch (error) {
       console.error("Error fetching user wallet balance:", error);
       toast({

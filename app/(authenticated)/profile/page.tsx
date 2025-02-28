@@ -1,7 +1,8 @@
 "use client";
 import BackButton from "@/app/components/BackButton";
 import { userProfileAtom } from "@/app/state/atoms";
-import { usePrivy } from "@privy-io/react-auth";
+import { Button } from "@/components/ui/button";
+import { usePrivy, useLogout } from "@privy-io/react-auth";
 import { useAtom } from "jotai";
 import { Copy } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +11,10 @@ import Link from "next/link";
 const ProfilePage = () => {
   const { user, ready, authenticated } = usePrivy();
   const [userProfile] = useAtom(userProfileAtom);
+  const { logout } = useLogout();
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="max-w-[600px] mx-auto">
@@ -70,7 +75,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Password Section */}
-        <div className="bg-[#F9FAFB] border border-[#E5E7EB]  rounded-[12px] p-4">
+        <div className="bg-[#F9FAFB] border border-[#E5E7EB]  rounded-[12px] p-4 mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-[#111827] text-base font-medium">
@@ -83,6 +88,20 @@ const ProfilePage = () => {
             >
               Change
             </Link>
+          </div>
+        </div>
+        <div className="bg-[#F9FAFB] border border-[#E5E7EB]  rounded-[12px] p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-[#111827] text-base font-medium">Log out</h3>
+            </div>
+            <Button
+              onClick={handleLogout}
+              variant="destructive"
+              className=" text-base font-normal"
+            >
+              Log out
+            </Button>
           </div>
         </div>
       </div>

@@ -71,7 +71,26 @@ const SendFunds = () => {
       if (ethBal < ethers.utils.parseEther("0.001")) {
         throw new Error("Not enough ETH for gas fees!");
       }
+      if (selectedCurrency === "eth") {
+        const amountIn = ethers.utils.parseEther(amount.toString());
+        const unsignedTx: UnsignedTransactionRequest = {
+          to: selectedUser?.walletAddress || debouncedSearchQuery,
+          chainId: Number(chainId),
+          value: BigInt(amountIn.toString()),
+          gasLimit: "60000",
+        };
 
+        const uiConfig: SendTransactionModalUIOptions = {
+          description: "SendMo is requesting your approval to send funds",
+          buttonText: "Approve",
+          isCancellable: true,
+        };
+
+        await sendTransaction(unsignedTx, {
+          uiOptions: uiConfig,
+        });
+        return;
+      }
       let tokenAddress;
 
       if (selectedCurrency === "usdt") {
@@ -120,12 +139,9 @@ const SendFunds = () => {
         isCancellable: true,
       };
 
-      const { hash } = await sendTransaction(unsignedTx, {
+      await sendTransaction(unsignedTx, {
         uiOptions: uiConfig,
       });
-      const transactionHash = hash;
-
-      console.log("Transaction successful:", transactionHash);
     } catch (error: any) {
       console.error("Transaction failed:", error);
       toast({
@@ -135,16 +151,53 @@ const SendFunds = () => {
       });
     } finally {
       setLoading(false);
+      setIsDialogOpen(false);
+      setSelectedUser(null);
+      setAmount("");
+      setrecipient("");
+      setSearchResults([]);
     }
   }
 
+  const returnTokenImageData = () => {
+    switch (selectedCurrency) {
+      case "eth":
+        return {
+          src: "/assets/eth.svg",
+          alt: "ETH",
+        };
+      case "usdt":
+        return {
+          src: "/assets/usdt.png",
+          alt: "USDT",
+        };
+      case "usdc":
+        return {
+          src: "/assets/usdc.png",
+          alt: "USDC",
+        };
+      case "mpt":
+        return {
+          src: "/assets/moonpay.png",
+          alt: "MPT",
+        };
+      default:
+        return {
+          src: "",
+          alt: "",
+        };
+    }
+  };
   const returnBalance = () => {
-    if (selectedCurrency === "usdt") {
-      return (userBalaces?.usdtBalance ?? 0).toFixed(2) + "USDT";
-    } else if (selectedCurrency === "usdc") {
-      return (userBalaces?.usdcBalance ?? 0).toFixed(2) + "USDC";
-    } else {
-      return (userBalaces?.mptBalance ?? 0).toFixed(2) + "MPT";
+    switch (selectedCurrency) {
+      case "usdt":
+        return (userBalaces?.usdtBalance ?? 0).toFixed(2) + " USDT";
+      case "usdc":
+        return (userBalaces?.usdcBalance ?? 0).toFixed(2) + " USDC";
+      case "mpt":
+        return (userBalaces?.mptBalance ?? 0).toFixed(2) + " MPT";
+      default:
+        return (userBalaces?.ethBalance ?? 0).toFixed(2) + " ETH";
     }
   };
 
@@ -266,20 +319,8 @@ const SendFunds = () => {
                 <SelectValue asChild>
                   <div className="flex items-center gap-2">
                     <Image
-                      src={
-                        selectedCurrency === "mpt"
-                          ? "/assets/moonpay.png"
-                          : selectedCurrency === "usdc"
-                          ? "/assets/usdc.png"
-                          : "/assets/usdt.png"
-                      }
-                      alt={
-                        selectedCurrency === "mpt"
-                          ? "MPT"
-                          : selectedCurrency === "usdc"
-                          ? "USDC"
-                          : "USDT"
-                      }
+                      src={returnTokenImageData().src}
+                      alt={returnTokenImageData().alt}
                       width={32}
                       height={32}
                     />
@@ -288,6 +329,17 @@ const SendFunds = () => {
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="eth">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/assets/eth.svg"
+                      alt="ETH"
+                      width={24}
+                      height={24}
+                    />
+                    <span>ETH</span>
+                  </div>
+                </SelectItem>
                 <SelectItem value="mpt">
                   <div className="flex items-center gap-2">
                     <Image
@@ -296,7 +348,7 @@ const SendFunds = () => {
                       width={24}
                       height={24}
                     />
-                    <span>USDC</span>
+                    <span>MPT</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="usdc">
@@ -331,9 +383,9 @@ const SendFunds = () => {
               className="text-right text-2xl font-bold text-[#6B7280] w-1/2 focus:outline-none bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
-          <p className="text-base font-normal text-[#9CA3AF] mt-[10px]">
+          {/* <p className="text-base font-normal text-[#9CA3AF] mt-[10px]">
             ≈ 0.00 USD
-          </p>
+          </p> */}
         </div>
         <button
           disabled={loading}

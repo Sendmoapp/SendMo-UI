@@ -14,13 +14,13 @@ const layout = ({
       <div className="w-full bg-white flex items-center justify-between py-6 px-10">
         <Image
           src="/assets/logo.png"
-          alt="MetaBridge Logo"
+          alt="SendMo Logo"
           width={150}
           height={32}
           className="cursor-pointer"
         />
         <p className="text-[#3D3D3D] font-normal text-[18px]">
-          Copyright MetaBridge Inc, 2025, All Right Reserved.
+          Copyright SendMo Inc, 2025, All Right Reserved.
         </p>
         <div className="flex items-center gap-3">
           <Image alt="X" src="/icons/X-black.svg" height={14} width={18} />

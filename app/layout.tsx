@@ -10,7 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Create Next App",
+  title: "SendMo",
   description: "Send money instantly in stable coins",
 };
 

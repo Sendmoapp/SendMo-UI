@@ -72,7 +72,7 @@ const TransactionHistory = () => {
       </div>
 
       <div className="space-y-4">
-        {histories.map((history, index) => {
+        {histories.slice(0, 4).map((history, index) => {
           const recieved = history.type === "RECEIVED";
           const isCardFunding = history.type === "FUNDING";
           return (

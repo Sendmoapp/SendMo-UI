@@ -58,12 +58,12 @@ const Header = () => {
                     {user?.wallet?.address?.slice(-4)}
                   </span>
                 </div>
-                <Image
+                {/* <Image
                   alt="arrow-down"
                   height={16}
                   width={16}
                   src="/icons/arrow-down-s-fill.svg"
-                />
+                /> */}
               </div>
               {userProfile && (
                 <Link

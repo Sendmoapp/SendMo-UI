@@ -1,10 +1,13 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Link from "next/link";
+import { usePrivy } from "@privy-io/react-auth";
 
 const Page = () => {
+  const { ready, authenticated } = usePrivy();
   return (
     <main className="bg-bg-element  min-h-screen bg-cover bg-repeat mx-auto">
       <Header />
@@ -32,10 +35,10 @@ const Page = () => {
         </p>
         <div className="flex gap-4 justify-center">
           <Link
-            href="/auth"
+            href={ready && authenticated ? "/dashboard" : "/auth"}
             className="px-[80px] py-5 bg-[#0172E6] text-white text-2xl font-semibold rounded-[16px] hover:bg-blue-600"
           >
-            Get Started
+            {ready && authenticated ? "Go to Dashboard" : "Get Started"}
           </Link>
           {/* <button className="px-6 py-3 bg-gray-900 text-white rounded-md hover:bg-gray-800">
             Learn More
@@ -46,7 +49,7 @@ const Page = () => {
       {/* Placeholder for the dashboard preview image */}
       <div className=" mx-auto px-10 pb-20 ">
         <div className="w-full h-[1159px] relative">
-          <Image fill alt="" src="/assets/hero.jpeg" />
+          <Image fill alt="" src="/assets/hero image@2x.png" />
         </div>
       </div>
 

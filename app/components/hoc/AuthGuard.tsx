@@ -18,7 +18,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     if (!ready) return;
 
     if (ready && !authenticated) redirect("/auth");
-  }, [pathName, ready]);
+  }, [pathName, ready, authenticated]);
 
   return (
     <div>
