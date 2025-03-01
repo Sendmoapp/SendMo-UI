@@ -38,6 +38,8 @@ SendMo is a stable coin payment system that integrates with Privy for authentica
 - A Moralis account
 - A Privy account
 - neon and drizzle account
+  Sepolia ETH for gas payment (Get here: https://faucet.africanonchaincollective.xyz/)
+  Sepolia USDC (gat here: https://faucet.circle.com/)
 
 ### Step-by-Step Setup
 
@@ -81,5 +83,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 ## Deploy on Vercel
+
+This MVP is configured to use sepolia network, all transactions are going to happen on Sepolia Testnet.
 
 Check out our [deployed version on vercel:https://sendmoui-test.vercel.app/](https://sendmoui-test.vercel.app/)
